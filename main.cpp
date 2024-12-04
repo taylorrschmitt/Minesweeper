@@ -27,8 +27,8 @@ map<int, sf::Sprite> parseDigits(sf::Sprite digits) {
 void Board::mineAssignment() {
     int placedMines = 0;
     while (placedMines < mineNum) {
-        int row = std::rand() % rowNum;
-        int col = std::rand() % colNum;
+        int row = rand() % rowNum;
+        int col = rand() % colNum;
         Tile* tile = getTile(row, col);
         if (tile != nullptr && !tile->isAMine()) {
             tile->setMine();
@@ -285,10 +285,10 @@ int main() {
                     int resetButtonHeight = 64;
 
                     if (mousePosX >= resetButtonX && mousePosX <= resetButtonX + resetButtonWidth && mousePosY >= resetButtonY && mousePosY <= resetButtonY + resetButtonHeight)  {
-                        cout << "Game Reset" << endl;
-                        gameBoard.resetBoard();
+                        //cout << "Game Reset" << endl;
+                        // gameBoard.drawHappyFace(gameWindow, true);
+                        gameBoard.resetBoard(gameWindow);
                         mineCount = mines;
-                        gameBoard.drawHappyFace(gameWindow, false);
                         startTime = chrono::high_resolution_clock::now();
                         elapsedPauseTime = 0;
                         paused = false;
@@ -470,7 +470,7 @@ int main() {
             gameBoard.drawPause(gameWindow);
             gameBoard.drawDebug(gameWindow);
             gameBoard.drawLeaderButton(gameWindow);
-            gameBoard.drawHappyFace(gameWindow, true);
+            gameBoard.drawHappyFace(gameWindow, gameBoard.checkPlayerWin());
             gameWindow.display();
         }
         return 0;

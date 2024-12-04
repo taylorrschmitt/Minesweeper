@@ -290,7 +290,7 @@ public:
 
 
     bool winCheck() {
-        cout << "winCheck" << endl;
+        //cout << "winCheck" << endl;
 
         for (int row = 0; row < rowNum; ++row) {
             for (int col = 0; col < colNum; ++col) {
@@ -310,8 +310,7 @@ public:
         }
 
         if (mineClicked == true) {
-            mineClicked = false;
-            cout << "MINECOUNT: " << mineClicked << endl;
+            //cout << "MINECOUNT: " << mineClicked << endl;
             endGame(false);//player loses
             return false;
         }
@@ -319,8 +318,11 @@ public:
             endGame(true);//player wins
             return false;
         }
+        mineClicked = false;
+        allNonMinesRevealed = false;
         return true;
     }
+
 
     bool checkPlayerWin() {
         if(mineClicked == true) {
@@ -330,6 +332,7 @@ public:
         }
         return didPlayerWin;
     }
+
 
     bool endGame(bool won) {
         pauseForWinOrLose();
@@ -365,18 +368,21 @@ public:
     }
 
 
-    void resetBoard() {
+    void resetBoard(sf::RenderWindow &window) {
         gameRunning = true;
         isPaused = false;
         mineClicked = false;
-
+        allNonMinesRevealed = false;
+        SpriteManager faceManager;
+        sf::Sprite HappyFaceButton = faceManager.getSprite("Happy Face Button");
+        HappyFaceButton.setPosition(sf::Vector2f((colNum * 32) / 2 - 32, (rowNum + 0.5) * 32));
+        window.draw(HappyFaceButton);
 
         for (int row = 0; row < rowNum; row++) {
             for (int col = 0; col < colNum; col++) {
                 Tile* tile = getTile(row, col);
                 if (tile != nullptr) {
-                    tile->setDebugRevealed(false);
-                    tile->resetSpriteToHidden();
+                    tile->resetTile();
                 }
             }
         }
